@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktyan_blog=self.webpackChunktyan_blog||[]).push([[5442],{8049:t=>{t.exports=JSON.parse('{"metadata":{"permalink":"/tyan-blog/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
