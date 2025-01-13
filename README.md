@@ -2,6 +2,10 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
+<br/>
+
+Visit Tyan Blog at [https://tyanfarm.github.io/tyan-blog/](https://tyanfarm.github.io/tyan-blog/)
+
 ### Installation
 
 ```
