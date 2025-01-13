@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktyan_blog=self.webpackChunktyan_blog||[]).push([[1903],{1912:t=>{t.exports=JSON.parse('{"blogBasePath":"/tyan-blog/blog","blogTitle":"Blog","authorsListPath":"/tyan-blog/blog/authors"}')}}]);
