@@ -89,3 +89,27 @@ sidebar_position: 3
 | HTTP Caching | Browser Cache |
 | Database Caching | `MySQL` hoặc `PostgreSQL` |
 
+## SQL Command
+***SELECT***
+```
+    SELECT * FROM table_name WHERE condition;
+```
+
+***INSERT***
+```
+    INSERT INTO table_name (column1, column2) VALUES (value1, value2);
+```
+
+***UPDATE***
+```
+    UPDATE table_name SET column1 = value1 WHERE condition;
+```
+
+***DELETE***
+```
+    DELETE FROM table_name WHERE condition;
+```
+
+***SQL JOIN***
+
+![alt](https://laptrinhvb.net/uploads/source/DATABASE/join_sqlserver.png)
