@@ -86,6 +86,11 @@ const config: Config = {
           label: 'Interview',
           position: 'left'
         },
+        {
+          to: '/docs/category/gpfedrec/',
+          label: 'GPFedRec',
+          position: 'left'
+        },
       ],
     },
     footer: {
