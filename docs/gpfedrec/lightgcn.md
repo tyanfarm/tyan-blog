@@ -66,3 +66,22 @@ $$
     + `Light Graph Convolution (LGC)`: Đây là bước đầu tiên và cốt lõi của mô hình. Trong LGC, chỉ có phép tính `tổng chuẩn hóa (normalized sum)` của các embedding lân cận được thực hiện để tạo ra embedding ở lớp tiếp theo. Các phép toán như `tự kết nối (self-connection)`, `biến đổi đặc trưng (feature transformation)`, và `hàm kích hoạt phi tuyến (nonlinear activation)` đều bị loại bỏ, giúp đơn giản hóa GCN. 
     + `Layer Combination (tổng trọng số)`: Sau khi thực hiện LGC qua nhiều lớp, các embedding thu được ở mỗi lớp được kết hợp lại bằng cách tính tổng trọng số.
 
+#### Light Graph Convolution (LGC)
+- `Phép toán tích chập đồ thị`: LGC sử dụng phép toán tổng trọng số đơn giản để tổng hợp các embedding lân cận. Công thức cụ thể:
+$$
+    \mathbf{e}_u^{(k+1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u|} \sqrt{|\mathcal{N}_i|}} \mathbf{e}_i^{(k)},
+$$
+
+$$
+    \mathbf{e}_i^{(k+1)} = \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i|} \sqrt{|\mathcal{N}_u|}} \mathbf{e}_u^{(k)}.
+$$
+
+- Trong đó:
+    + $N_u$ là tập các item mà user u đã tương tác.
+    + $N_i$ là tập các user đã tương tác với item i.
+    + $e_u^{(k)}$ và $e_i^{(k)}$ là embedding của user u và item i ở lớp `k`.
+
+- `Chuẩn hóa`: Hệ số chuẩn hóa đối xứng $\frac{1}{\sqrt{|\mathcal{N}_u|} \sqrt{|\mathcal{N}_i|}}$ được sử dụng để tránh việc các embedding tăng lên khi thực hiện các phép toán tích chập đồ thị.
+    + Hệ số chuẩn hóa này có tính đối xứng vì nó sử dụng cả số lượng tương tác của người dùng `(|Nu|)` và số lượng người dùng tương tác với mặt hàng `(|Ni|)`. 
+    + Điều này giúp đảm bảo rằng cả người dùng và mặt hàng đều được xử lý một cách công bằng trong quá trình lan truyền embedding.
+    + Thừa hưởng từ `GCN`
