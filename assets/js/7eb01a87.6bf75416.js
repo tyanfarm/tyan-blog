@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktyan_blog=self.webpackChunktyan_blog||[]).push([[880],{3314:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"GPFedRec","slug":"/category/gpfedrec","permalink":"/tyan-blog/docs/category/gpfedrec","sidebar":"tutorialSidebar","navigation":{"next":{"title":"GCN","permalink":"/tyan-blog/docs/gpfedrec/gcn"}}}}')}}]);
