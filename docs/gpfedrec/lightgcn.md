@@ -36,10 +36,10 @@ $$
 $$
 
     + $e_u^{(k)}$ và $e_i^{(k)}$ lần lượt là embedding của `user i` và `item i` sau `k lớp` lan truyền.
-    + $\sigma$ là hàm kích hoạt phi tuyến
+    + $\sigma$ là hàm kích hoạt phi tuyến (`nonlinear activation`).
     + $N_u$ là tập hợp các item mà user u đã tương tác.
     + $N_i$ là tập hợp các user đã tương tác với item i.
-    + $W1$ và $W2$ là các ma trận trọng số có thể huấn luyện để thực hiện biến đổi đặc trưng trong mỗi lớp.
+    + $W1$ và $W2$ là các ma trận trọng số có thể huấn luyện để thực hiện biến đổi đặc trưng trong mỗi lớp (`features transformation`).
 
 - `Kết hợp các embedding`: Sau khi lan truyền qua L lớp, NGCF thu được L+1 embedding cho mỗi user và item. Các embedding này sau đó được kết hợp để tạo ra embedding cuối cùng cho từng user và item.
 
@@ -85,3 +85,10 @@ $$
     + Hệ số chuẩn hóa này có tính đối xứng vì nó sử dụng cả số lượng tương tác của người dùng `(|Nu|)` và số lượng người dùng tương tác với mặt hàng `(|Ni|)`. 
     + Điều này giúp đảm bảo rằng cả người dùng và mặt hàng đều được xử lý một cách công bằng trong quá trình lan truyền embedding.
     + Thừa hưởng từ `GCN`
+
+#### Layer Combination 
+- Trong LightGCN, các tham số mô hình có thể huấn luyện `duy nhất` là các `embedding ở lớp thứ 0`, tức là $e_u^{(0)}$ cho tất cả user và $e_i^{(0)}$ cho tất cả các item.
+
+- Sau đó, các embedding ở lớp cao hơn ($e_u^{(1)}$, $e_u^{(2)}$, ..., $e_u^{(k)}$ và $e_i^{(1)}$, $e_i^{(2)}$, ..., $e_i^{(k)}$) được tính toán thông qua LGC. 
+
+#### Model Prediction
