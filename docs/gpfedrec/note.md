@@ -17,7 +17,7 @@ title: Note
 
 ## Torch Embedding
 - `torch.nn.Embedding(num_embeddings, embedding_dim)`:
-	+ `num_embeddings`: kích thước từ điển embedding, nếu num_embeddings=5 và muốn embed index=6 thì lỗi
+	+ `num_embeddings`: kích thước từ điển embedding $[0, num\_embeddings - 1]$, nếu num_embeddings=5 và muốn embed index=5 trở lên thì lỗi
 	+ `embedding_dim`: số chiều của vecto output
 
 ## Range khi Embedding User & Item:
