@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-build-llm-from-scratch/state-of-building-LLMs" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">1. State of building LLMs | Tyan Blog</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://github.com/tyan-blog/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://github.com/tyan-blog/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://github.com/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="1. State of building LLMs | Tyan Blog"><meta data-rh="true" name="description" content="Introduction Pipelines"><meta data-rh="true" property="og:description" content="Introduction Pipelines"><link data-rh="true" rel="icon" href="/tyan-blog/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs"><link data-rh="true" rel="alternate" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs" hreflang="en"><link data-rh="true" rel="alternate" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs" hreflang="x-default"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css" integrity="sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM" crossorigin="anonymous"><link rel="stylesheet" href="/tyan-blog/assets/css/styles.2ce171b8.css">
+<script src="/tyan-blog/assets/js/runtime~main.539cd2b5.js" defer="defer"></script>
+<script src="/tyan-blog/assets/js/main.2100b98b.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/tyan-blog/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/tyan-blog/"><div class="navbar__logo"><img src="/tyan-blog/img/logo.svg" alt="Tyan Blog Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/tyan-blog/img/logo.svg" alt="Tyan Blog Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Tyan Blog</b></a><a class="navbar__item navbar__link" href="/tyan-blog/docs/category/interviews/">Interview</a><a class="navbar__item navbar__link" href="/tyan-blog/docs/category/build-llm-from-scratch/">LLM</a></div><div class="navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/tyan-blog/docs/category/interviews">Interviews</a><button aria-label="Expand sidebar category &#x27;Interviews&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/tyan-blog/docs/category/build-llm-from-scratch">Build LLM from Scratch</a><button aria-label="Collapse sidebar category &#x27;Build LLM from Scratch&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs">1. State of building LLMs</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling">2. Data Preparation and Sampling</a></li></ul></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/tyan-blog/docs/intro">Tutorial Intro</a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/tyan-blog/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/tyan-blog/docs/category/build-llm-from-scratch"><span itemprop="name">Build LLM from Scratch</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">1. State of building LLMs</span><meta itemprop="position" content="2"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>1. State of building LLMs</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="introduction-pipelines">Introduction Pipelines<a href="#introduction-pipelines" class="hash-link" aria-label="Direct link to Introduction Pipelines" title="Direct link to Introduction Pipelines">​</a></h2>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/pretrained&amp;finetuning-ae4f9dcfcaaa938972c501955349e455.png" width="1504" height="849" class="img_ev3q"></p>
+<ul>
+<li>
+<p>Bước đầu tiên để xây dựng 1 LLM là huấn luyện trên một tập văn bản khổng lồ (raw text). Tập này là văn bản thông thường, không có thông tin nhãn.</p>
+</li>
+<li>
+<p>Giai đoạn huấn luyện đầu tiên này còn được gọi là <code>pretraining</code>, tạo ra một mô hình LLM sơ cấp (pretrained LLM), thường được gọi là <code>base model</code> hoặc <code>foundation model</code>. Mô hình này có khả năng hoàn thành văn bản (<code>text completion</code>), tức là hoàn tất một câu dở dang do người dùng nhập vào. Nó cũng có khả năng <code>few-shot learning</code> ở mức hạn chế, nghĩa là có thể học cách thực hiện một nhiệm vụ mới chỉ dựa vào một vài ví dụ, thay vì cần một lượng dữ liệu huấn luyện lớn.</p>
+</li>
+<li>
+<p>Sau khi có một mô hình đã được <code>pretrain</code> (từ việc huấn luyện trên tập dữ liệu văn bản lớn, trong đó LLM học cách dự đoán từ tiếp theo trong chuỗi văn bản), chúng ta có thể huấn luyện tiếp trên dữ liệu có nhãn, còn được gọi là <code>finetuning</code>.</p>
+</li>
+<li>
+<p>Có 2 hướng <code>finetuning</code> phổ biến:</p>
+<ul>
+<li><code>Instruction-finetuning</code>: Chatbot, Translator, Q&amp;A…</li>
+<li><code>Classification tasks finetuning</code>: Spam detection, sentiment analysis, intent detection</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="original-transformers-architecture">Original Transformers Architecture<a href="#original-transformers-architecture" class="hash-link" aria-label="Direct link to Original Transformers Architecture" title="Direct link to Original Transformers Architecture">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-encoder--decoder">1. Encoder &amp; Decoder<a href="#1-encoder--decoder" class="hash-link" aria-label="Direct link to 1. Encoder &amp; Decoder" title="Direct link to 1. Encoder &amp; Decoder">​</a></h3>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/original-transformers-23ea85bd797eee75d3b6d5b285a858d2.png" width="1483" height="1094" class="img_ev3q"></p>
+<ul>
+<li>Kiến trúc <code>transformers</code> gồm 2 module là <code>Encoder</code> &amp; <code>Decoder</code>.</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="token---embedding">Token -&gt; Embedding<a href="#token---embedding" class="hash-link" aria-label="Direct link to Token -&gt; Embedding" title="Direct link to Token -&gt; Embedding">​</a></h4>
+<ul>
+<li>“The” → [0.2, 0.7, -0.1, …]</li>
+<li>“cat” → [0.5, 0.1, 0.8, …]</li>
+<li>“sat” → [0.9, -0.3, 0.4, …]</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="encoder">Encoder<a href="#encoder" class="hash-link" aria-label="Direct link to Encoder" title="Direct link to Encoder">​</a></h4>
+<ul>
+<li>Các embedding được đưa qua nhiều layer <code>self-attention</code> + <code>feed-forward</code> để nắm bắt đặc trưng của các token xung quanh.</li>
+<li>Từ đó, ở output của Encoder, mỗi token có 1 <code>contextual embedding</code> (embedding giàu ngữ cảnh).</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="decoder">Decoder<a href="#decoder" class="hash-link" aria-label="Direct link to Decoder" title="Direct link to Decoder">​</a></h4>
+<ul>
+<li>
+<p><code>Masked self-attention</code>: Decoder tự nhìn vào các token đã sinh trước đó để dự đoán token kế tiếp.</p>
+</li>
+<li>
+<p><code>Cross-attention</code>: Decoder nhìn vào toàn bộ embedding của Encoder để quyết định thông tin nào cần dùng khi sinh token tiếp theo.</p>
+</li>
+<li>
+<p><code>Feed-forward (FNN)</code>: đưa qua 1 mạng MLP để học được đặc trưng phi tuyến.</p>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="example">Example<a href="#example" class="hash-link" aria-label="Direct link to Example" title="Direct link to Example">​</a></h4>
+<ul>
+<li>
+<p>🏋️<code>TRAINING</code>:</p>
+<ul>
+<li>
+<p>Input: <code>&quot;This is an example&quot;</code></p>
+</li>
+<li>
+<p>Target: <code>&quot;Das ist ein Beispiel&quot;</code></p>
+</li>
+<li>
+<p>Cách mô hình học:</p>
+<ul>
+<li>
+<ol>
+<li>Encoder nhận <code>&quot;This is an example&quot;</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em"></span><span class="mrel">→</span></span></span></span> sinh embedding vectors.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Decoder nhận <code>Target</code> nhưng <code>dịch lệch phải (shifted right)</code></li>
+</ol>
+<ul>
+<li>Input cho Decoder: <code>&quot;&lt;BOS&gt; Das ist ein&quot;</code> (trong đó <code>&lt;BOS&gt; = Begin Of Sentence)</code>.</li>
+<li>Output cần dự đoán: <code>&quot;Das ist ein Beispiel &lt;EOS&gt;&quot;</code>.</li>
+</ul>
+</li>
+<li>
+<ol start="3">
+<li>Nhờ đó, mô hình học được cách dự đoán token tiếp theo:</li>
+</ol>
+<ul>
+<li>Khi input <code>&lt;BOS&gt;</code>, output phải là <code>&quot;Das&quot;</code>.</li>
+<li>Khi input <code>&quot;Das&quot;</code>, output phải là <code>&quot;ist&quot;</code>.</li>
+<li>Khi input <code>&quot;Das ist ein&quot;</code>, output phải là <code>&quot;Beispiel&quot;</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Đây còn gọi là <code>teacher forcing</code>.</li>
+</ul>
+</li>
+<li>
+<p>🤖<code>INFERENCE</code>:</p>
+<ul>
+<li>
+<ol>
+<li>Khi Encoder nhận <code>&quot;This is an example&quot;</code>.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Decoder khởi đầu chỉ có <code>&lt;BOS&gt;</code>. Sau đó dự đoán từ đầu tiên: <code>&quot;Das&quot;</code>.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Lấy <code>&quot;Das&quot;</code> làm input tiếp theo cho Decoder. Dự đoán từ thứ 2: <code>&quot;ist&quot;</code>.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Input cho Decoder lúc này: <code>&quot;Das ist&quot;</code>. Dự đoán từ tiếp: <code>&quot;ein&quot;</code>.</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Input <code>&quot;Das ist ein&quot;</code>, dự đoán <code>&quot;Beispiel&quot;</code>.</li>
+</ol>
+</li>
+<li>
+<p>Mô hình cứ thế <code>tự sinh → nạp lại → sinh tiếp</code> cho đến khi gặp token đặc biệt <code>&lt;EOS&gt;</code> (End Of Sentence).</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-bert--gpt">2. BERT &amp; GPT<a href="#2-bert--gpt" class="hash-link" aria-label="Direct link to 2. BERT &amp; GPT" title="Direct link to 2. BERT &amp; GPT">​</a></h3>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/bert&amp;gpt-7a5785e05147824ebda30a16ba4954b1.png" width="1481" height="962" class="img_ev3q"></p>
+<ul>
+<li>
+<p><em>BERT (Bidirectional Encoder Representations from Transformers)</em>:</p>
+<ul>
+<li>Được xây dựng từ kiến trúc Encoder của Transformer gốc. BERT không dùng để sinh văn bản mà tập trung vào <code>Masked Language Modeling (MLM)</code> - che giấu một số từ trong câu rồi yêu cầu mô hình dự đoán lại.</li>
+</ul>
+</li>
+<li>
+<p><em>GPT (Generative Pretrained Transformers)</em>:</p>
+<ul>
+<li>
+<p>Ngược lại, GPT dựa trên Decoder của Transformer, được sử dụng cho tác vụ sinh văn bản: <em>dịch máy, tóm tắt, viết code, ...</em></p>
+</li>
+<li>
+<p>Ngoài <em>text completion</em>, các mô hình LLM giống GPT có thể giải quyết nhiều task khác nhau mà không cần retraining hay finetuning. Trong vài trường hợp, việc thiết lập output mong muốn trong phần input được gọi là <code>few-shot</code>. Ngoài ra, GPT cũng có khả năng thực hiện task ngay cả khi không cần ví dụ cụ thể, còn gọi là <code>zero-shot</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/zeroshot&amp;fewshot-cbadd1f29c4c1a8363262eb6c8bdb215.jpg" width="1125" height="560" class="img_ev3q"></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="summary">Summary<a href="#summary" class="hash-link" aria-label="Direct link to Summary" title="Direct link to Summary">​</a></h2>
+<ul>
+<li>
+<p>Các mô hình ngôn ngữ lớn (LLM) được huấn luyện theo 2 bước chính. Trước tiên, chúng được pretrained trên một kho văn bản khổng lồ không gắn nhãn bằng cách dự đoán từ tiếp theo trong một câu như là &quot;nhãn&quot;. Sau đó, chúng được finetuned trên một tập nhỏ hơn, có gắn nhãn để làm theo instruction hoặc thực hiện tác vụ classification.</p>
+</li>
+<li>
+<p>LLM dựa trên kiến trúc Transformer. Key idea của Transformer là cơ chế <code>attention</code>, cho phép LLM có thể &quot;nhìn&quot; được toàn bộ chuỗi đầu vào trước khi tạo ra từng từ.</p>
+</li>
+<li>
+<p>Kiến trúc Transformer bao gồm 1 bộ mã hóa (Encoder) để phân tích văn bản &amp; 1 bộ giải mã (Decoder) để sinh văn bản.</p>
+</li>
+<li>
+<p>Các LLM như GPT-3 &amp; ChatGPT chỉ triển khai các module Decoder.</p>
+</li>
+<li>
+<p>Nhiệm vụ của quá trình pretrained LLM là dự đoán từ tiếp theo, nhưng LLM lại thể hiện các tính chất nổi lên như classification, translation hay summarize texts.</p>
+</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/tyanfarm/tyan-blog/tree/main/docs/build-llm-from-scratch/state-of-building-LLMs.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/tyan-blog/docs/category/build-llm-from-scratch"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Build LLM from Scratch</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">2. Data Preparation and Sampling</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#introduction-pipelines" class="table-of-contents__link toc-highlight">Introduction Pipelines</a></li><li><a href="#original-transformers-architecture" class="table-of-contents__link toc-highlight">Original Transformers Architecture</a><ul><li><a href="#1-encoder--decoder" class="table-of-contents__link toc-highlight">1. Encoder &amp; Decoder</a></li><li><a href="#2-bert--gpt" class="table-of-contents__link toc-highlight">2. BERT &amp; GPT</a></li></ul></li><li><a href="#summary" class="table-of-contents__link toc-highlight">Summary</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/tyan-blog/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/tyanfarm" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2025 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

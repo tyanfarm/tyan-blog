@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-build-llm-from-scratch/data-preparation-and-sampling" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">2. Data Preparation and Sampling | Tyan Blog</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://github.com/tyan-blog/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://github.com/tyan-blog/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://github.com/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="2. Data Preparation and Sampling | Tyan Blog"><meta data-rh="true" name="description" content="Word Embeddings"><meta data-rh="true" property="og:description" content="Word Embeddings"><link data-rh="true" rel="icon" href="/tyan-blog/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling"><link data-rh="true" rel="alternate" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling" hreflang="en"><link data-rh="true" rel="alternate" href="https://github.com/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling" hreflang="x-default"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css" integrity="sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM" crossorigin="anonymous"><link rel="stylesheet" href="/tyan-blog/assets/css/styles.2ce171b8.css">
+<script src="/tyan-blog/assets/js/runtime~main.539cd2b5.js" defer="defer"></script>
+<script src="/tyan-blog/assets/js/main.2100b98b.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/tyan-blog/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/tyan-blog/"><div class="navbar__logo"><img src="/tyan-blog/img/logo.svg" alt="Tyan Blog Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/tyan-blog/img/logo.svg" alt="Tyan Blog Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Tyan Blog</b></a><a class="navbar__item navbar__link" href="/tyan-blog/docs/category/interviews/">Interview</a><a class="navbar__item navbar__link" href="/tyan-blog/docs/category/build-llm-from-scratch/">LLM</a></div><div class="navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/tyan-blog/docs/category/interviews">Interviews</a><button aria-label="Expand sidebar category &#x27;Interviews&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/tyan-blog/docs/category/build-llm-from-scratch">Build LLM from Scratch</a><button aria-label="Collapse sidebar category &#x27;Build LLM from Scratch&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs">1. State of building LLMs</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/tyan-blog/docs/build-llm-from-scratch/data-preparation-and-sampling">2. Data Preparation and Sampling</a></li></ul></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/tyan-blog/docs/intro">Tutorial Intro</a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/tyan-blog/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/tyan-blog/docs/category/build-llm-from-scratch"><span itemprop="name">Build LLM from Scratch</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">2. Data Preparation and Sampling</span><meta itemprop="position" content="2"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>2. Data Preparation and Sampling</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="word-embeddings">Word Embeddings<a href="#word-embeddings" class="hash-link" aria-label="Direct link to Word Embeddings" title="Direct link to Word Embeddings">​</a></h2>
+<ul>
+<li>
+<p>Các mô hình mạng nơ ron học sâu (Deep neural network models), bao gồm cả LLMs, không thể xử lí trực tiếp <code>văn bản thô</code>. Do đó, ta cần một cách để biểu diễn các từ thành <em>các vector có giá trị liên tục</em>.</p>
+</li>
+<li>
+<p>Khái niệm này được gọi là <code>embedding</code>.</p>
+</li>
+<li>
+<p>Word Embedding có thể có số chiều khác nhau, từ 1 đến hàng nghìn.</p>
+</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/embedding-aa32c6d42fcc7007a1c615a84e0343ba.png" width="1421" height="722" class="img_ev3q"></p>
+<ul>
+<li>
+<p>Trong khi ta có thể sử dụng các pretrained model như <code>Word2Vec</code> để tạo embedding cho các mô hình máy học, thì <code>LLM</code> tự sinh ra embedding riêng ở <em>input layer</em> và các embedding được cập nhật trong quá trình huấn luyện.</p>
+</li>
+<li>
+<p>Hơn nữa, <code>LLM</code> còn có khả năng tạo ra các embedding giàu ngữ cảnh (<code>contextual embedding</code>), sẽ được thảo luận ở phần 3. Các phần tiếp theo trong phần này bao gồm: <em>splitting text into words</em>, <em>converting words into tokens</em> &amp; <em>turning tokens into embedding vectors</em></p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="tokenizing-text">Tokenizing text<a href="#tokenizing-text" class="hash-link" aria-label="Direct link to Tokenizing text" title="Direct link to Tokenizing text">​</a></h2>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing-392171e1e60f4886b9263d31b7d09db5.png" width="1503" height="1016" class="img_ev3q"></p>
+<ul>
+<li>
+<p>Bắt đầu với vài mẫu text, ta có thể dùng <code>re.split</code> để split theo khoảng trắng như sau:</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">import re</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">text = &quot;Hello, world. This, is a test.&quot;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">result = re.split(r&#x27;(\s)&#x27;, text)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">print(result)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Kết quả sẽ là 1 list các từ và kí tự sau:</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[&#x27;Hello,&#x27;, &#x27; &#x27;, &#x27;world.&#x27;, &#x27; &#x27;, &#x27;This,&#x27;, &#x27; &#x27;, &#x27;is&#x27;, &#x27; &#x27;, &#x27;a&#x27;, &#x27; &#x27;, &#x27;test.&#x27;]</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Tuy nhiên, vẫn còn 1 vài từ dính với các kí tự dấu câu, ta sẽ tách ra thành các phần tử riêng:</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">result = re.split(r&#x27;([,.]|\s)&#x27;, text)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">print(result)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Đây là kết quả:</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[&#x27;Hello&#x27;, &#x27;,&#x27;, &#x27;&#x27;, &#x27; &#x27;, &#x27;world&#x27;, &#x27;.&#x27;, &#x27;&#x27;, &#x27; &#x27;, &#x27;This&#x27;, &#x27;,&#x27;, &#x27;&#x27;, &#x27; &#x27;, &#x27;is&#x27;, &#x27; &#x27;, &#x27;a&#x27;, &#x27; &#x27;, &#x27;test&#x27;, &#x27;.&#x27;]</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Về các <em>whitespaces</em>, cần giữ hay loại bỏ? Loại bỏ sẽ giúp giảm nhu cầu về bộ nhớ &amp; tính toán. Tuy nhiên, giữ lại có thể hữu ích nếu huấn luyện các mô hình nhạy cảm với cấu trúc chính xác (ví dụ: mã Python nhạy cảm với các khoảng <em>\tab</em>).</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">result = [item for item in result if item.strip()]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">print(result)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[&#x27;Hello&#x27;, &#x27;,&#x27;, &#x27;world&#x27;, &#x27;.&#x27;, &#x27;This&#x27;, &#x27;,&#x27;, &#x27;is&#x27;, &#x27;a&#x27;, &#x27;test&#x27;, &#x27;.&#x27;]</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Phương pháp <em>tokenize</em> trên hiệu quả với các đoạn text đơn giản. Ta sẽ điều chỉnh thêm để nó có thể xử lý được nhiều loại dấu câu khác (<code>?, !, ;, ...</code>):</p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">text = &quot;Hello, world. Is this-- a test?&quot;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">result = re.split(r&#x27;([,.:;?_!&quot;()\&#x27;]|--|\s)&#x27;, text)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">result = [item.strip() for item in result if item.strip()]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">print(result)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[&#x27;Hello&#x27;, &#x27;,&#x27;, &#x27;world&#x27;, &#x27;.&#x27;, &#x27;Is&#x27;, &#x27;this&#x27;, &#x27;--&#x27;, &#x27;a&#x27;, &#x27;test&#x27;, &#x27;?&#x27;]</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_01-d089cbc71f306c7e5337781bc133c4c6.png" width="999" height="327" class="img_ev3q"></p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="converting-tokens-into-token-ids">Converting tokens into token IDs<a href="#converting-tokens-into-token-ids" class="hash-link" aria-label="Direct link to Converting tokens into token IDs" title="Direct link to Converting tokens into token IDs">​</a></h2>
+<ul>
+<li>
+<p>Để ánh xạ các tokens trước đó thành các token IDs, trước tiên chúng ta cần tạo <code>vocabulary</code>, cụ thể được minh họa như sau:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_02-cefcaa50b1f4fc2cd9db0c48d2f29cb9.png" width="1393" height="1004" class="img_ev3q"></p>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="implementing-a-simple-text-tokenizer">Implementing a simple text tokenizer<a href="#implementing-a-simple-text-tokenizer" class="hash-link" aria-label="Direct link to Implementing a simple text tokenizer" title="Direct link to Implementing a simple text tokenizer">​</a></h4>
+<ul>
+<li>
+<p>Các bộ tokenizer thường có 2 phương thức chung:</p>
+<ul>
+<li><code>Encoder</code>: nhận vào 1 đoạn văn bản mẫu, tách nó thành token riêng lẻ rồi chuyển thành các ID token.</li>
+<li><code>Decoder</code>: nhận vào các ID token, chuyển ngược thành văn bản.</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_03-335497065414c2ffa2596a4c69947465.png" width="1429" height="852" class="img_ev3q"></p>
+</li>
+<li>
+<p>Phần code minh họa sẽ được trình bày trong <code>Tokenizing.ipynb</code></p>
+</li>
+<li>
+<p>Có một vấn đề là với những từ mà <em>vocabulary</em> chưa có, <code>tokenizer</code> sẽ không ánh xạ sang <em>token IDs</em> được. Điều này cho thấy cần phải chuẩn bị 1 tập training lớn và đa dạng hơn để mở rộng cho <em>vocabulary</em>.</p>
+</li>
+<li>
+<p>Ở phần sau, ta sẽ tiếp tục thử nghiệm <code>tokenizer</code> trên văn bản chứa những từ mà <em>vocabulary</em> chưa có, đồng thời thảo luận về các <code>token đặc biệt</code> bổ sung có thể được sử dụng để cung cấp thêm ngữ cảnh cho LLM trong quá trình training.</p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="adding-special-context-tokens">Adding special context tokens<a href="#adding-special-context-tokens" class="hash-link" aria-label="Direct link to Adding special context tokens" title="Direct link to Adding special context tokens">​</a></h2>
+<ul>
+<li>
+<p>Ở phần này, ta sẽ bổ sung <em>vocabulary</em> đã triển khai ở phần trước để hỗ trợ 2 token mới là <code>&lt;|unk|&gt;</code> và <code>&lt;|endoftext|&gt;</code></p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_04_special_tokens-4d01b1530b9662815255bc511227996d.png" width="1366" height="899" class="img_ev3q"></p>
+</li>
+<li>
+<p>Như hình ở trên, ta có thể cho <code>tokenizer</code> sử dụng token <code>&lt;|unk|&gt;</code> nếu gặp 1 từ không nằm trong <em>vocabulary</em> và token <code>&lt;|endoftext|&gt;</code> giữa 2 đoạn văn bản không liên quan.</p>
+</li>
+<li>
+<p>Ví dụ, khi huấn luyện các LLM kiểu GPT trên nhiều tài liệu hoặc sách độc lập, việc chèn một token trước mỗi tài liệu hoặc cuốn sách tiếp nối sau một nguồn văn bản trước đó là điều thường gặp để giúp LLM hiểu rằng mặc dù các văn bản này được nối lại để training, nhưng chúng không liên quan đến nhau.</p>
+</li>
+<li>
+<p>Code triển khai xem thêm tại <code>Tokenizing.ipynb</code></p>
+</li>
+<li>
+<p>Tùy thuộc vào từng mô hình LLM, một số nhà nghiên cứu còn xem xét thêm các token đặc biệt như:</p>
+<ul>
+<li><code>[BOS] (beginning of sequence)</code>: đánh dấu sự bắt đầu của 1 văn bản.</li>
+<li><code>[EOS] (end of sequence)</code>: Token nằm ở cuối văn bản, tương tự như <code>&lt;|endoftext|&gt;</code>.</li>
+<li><code>[PAD] (padding)</code>: Khi training LLM với <em>batch_size &gt; 1</em>, để đảm bảo các văn bản có cùng độ dài, những văn bản ngắn hơn sẽ được mở rộng hoặc thêm bằng token <code>[PAD]</code> cho đến khi bằng với độ dài văn bản dài nhất trong <em>batch</em>.</li>
+</ul>
+</li>
+<li>
+<p>Lưu ý rằng các token được sử dụng cho mô hình GPT không cần những token trên, chỉ dùng <code>&lt;|endoftext|&gt;</code> cho đơn giản. Token <code>&lt;|endoftext|&gt;</code> tương tự như token <code>[EOS]</code> nêu trên, đồng thời, <code>&lt;|endoftext|&gt;</code> cũng được dùng để padding. Tuy nhiên, chúng ta sẽ khám phá ở các chương sau, khi training trên <em>dữ liệu batch</em>, ta thường sử dụng <code>mask</code> (nghĩa là bỏ qua các token được <em>padding</em>). Như vậy, token nào được chọn để <em>padding</em> không còn quan trọng nữa.</p>
+</li>
+<li>
+<p>Ngoài ra, <code>tokenizer</code> dùng cho GPT cũng không sử dụng <code>&lt;|unk|&gt;</code> cho những từ ngoài <em>vocabulary</em>. Thay vào đó, các mô hình GPT sử dụng <code>BPE (Byte Pair Encoding)</code> Tokenizer - một phương pháp chia nhỏ từ thành các `subword units (đơn vị con) - điều mà chúng ta sẽ thảo luận ở phần tiếp theo.</p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="byte-pair-encoding">Byte Pair Encoding<a href="#byte-pair-encoding" class="hash-link" aria-label="Direct link to Byte Pair Encoding" title="Direct link to Byte Pair Encoding">​</a></h2>
+<ul>
+<li>
+<p>Thuật toán của <code>BPE</code> sẽ tách những từ không có trong <em>vocabulary</em> thành các <code>subword units</code> hoặc thậm chí thành từng kí tự riêng lẻ, cho phép xử lí được các từ nằm ngoài <em>vocabulary</em>.</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_05_bpe-7bb1b89547c3a8628085179c9e1f0418.png" width="996" height="529" class="img_ev3q"></p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="data-sampling-with-a-sliding-window">Data sampling with a sliding window<a href="#data-sampling-with-a-sliding-window" class="hash-link" aria-label="Direct link to Data sampling with a sliding window" title="Direct link to Data sampling with a sliding window">​</a></h2>
+<ul>
+<li>
+<p>Các phần trước đã trình bày chi tiết về các bước tokenization và việc chuyển đổi từ các <code>token dạng chuỗi</code> sang các <code>token IDs dạng integer</code>. Bước tiếp theo, trước khi có thể tạo ra <code>embeddings</code> cho LLM, là cần tạo ra các cặp <code>input-target</code> để train LLM như hình dưới đây:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_06_sampling-d042d0a6ff4116e3903c52fe3f53f889.png" width="1180" height="734" class="img_ev3q"></p>
+</li>
+<li>
+<p>Trong phần này ta sẽ triển khai một <code>Data Loader</code> để lấy ra các cặp <code>input-target</code> kiểu như sau:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_07_input_target-0f3f32be549696b8322a14247ed5b08b.png" width="1347" height="1098" class="img_ev3q"></p>
+</li>
+<li>
+<p>Để triển khai <code>Data Loader</code> hiệu quả, ta đưa <code>input</code> vào 1 <code>Tensor X</code>, trong đó mỗi hàng biểu diễn ngữ cảnh đầu vào. <code>Tensor Y</code> chứa các <code>target</code> tương ứng, được tạo ra bằng cách <code>dịch đầu 1 vị trí</code>:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_08_input_target_torch-b6a164647d7f69102946cb51260ebbe6.png" width="1336" height="669" class="img_ev3q"></p>
+</li>
+<li>
+<p>Khi tạo nhiều <code>batch</code> từ <code>input dataset</code>, ta sử dụng <code>sliding window</code> trên văn bản.</p>
+<ul>
+<li>Nếu <code>stride == 1</code>, <code>input window</code> sẽ dịch sang <code>1 vị trí</code> khi tạo batch tiếp theo.</li>
+<li>Nếu đặt <code>stride</code> bằng với kích thước cửa sổ đầu vào (<code>max_length</code>), ta có thể tránh được <code>overlap</code> giữa các batch.</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_09_sliding_window-a7b1250c9ceb281314e0227815c1d5a9.png" width="1439" height="1026" class="img_ev3q"></p>
+</li>
+<li>
+<p>Code triển khai có thể xem qua <code>3. Data_sampling.ipynb</code></p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="creating-token-embeddings">Creating Token Embeddings<a href="#creating-token-embeddings" class="hash-link" aria-label="Direct link to Creating Token Embeddings" title="Direct link to Creating Token Embeddings">​</a></h2>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_10_embedding-eb5758737f78dfe502d431da4e5ee4bc.png" width="1580" height="1123" class="img_ev3q"></p>
+<ul>
+<li>
+<p>Các <code>trọng số embedding</code> sẽ được khởi tạo ngẫu nhiên ban đầu. Các <code>weights</code> này sẽ được <em>tối ưu hóa</em> trong quá trình training LLM.</p>
+</li>
+<li>
+<p>Một <code>biểu diễn vector liên tục (continuous vector representation)</code>, hay còn gọi là <code>embedding</code>, được huấn luyện bởi thuật toán <code>lan truyền ngược (backpropagation)</code> (Có thể đọc thêm tại <em>Appendix A.4, Automatic differentiation made easy</em>)</p>
+</li>
+<li>
+<p>Phần code minh họa xem thêm tại <code>Token_embedding.ipynb</code></p>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="embedding-layer-và-matrix-multiplication-nhân-ma-trận">Embedding Layer và Matrix Multiplication (Nhân ma trận)<a href="#embedding-layer-và-matrix-multiplication-nhân-ma-trận" class="hash-link" aria-label="Direct link to Embedding Layer và Matrix Multiplication (Nhân ma trận)" title="Direct link to Embedding Layer và Matrix Multiplication (Nhân ma trận)">​</a></h3>
+<ul>
+<li>
+<p>Trước tiên ta cùng ôn lại một chút về khái niệm <code>one-hot encoding</code>. Kĩ thuật này sẽ chuyển đổi <em>categorical data</em> thành vector nhị phân:</p>
+<ul>
+<li>
+<p>Mỗi phần tử sẽ là <em>0 hoặc 1</em>.</p>
+</li>
+<li>
+<p>Chỉ có duy nhất 1 vị trí bằng <em>1</em>, còn lại <em>0</em>.</p>
+</li>
+<li>
+<p>Ví dụ, <code>[&quot;cat&quot;, &quot;dog&quot;, &quot;tiger&quot;]</code>:</p>
+<ul>
+<li><code>&quot;cat&quot; -&gt; [1, 0, 0]</code></li>
+<li><code>&quot;dog&quot; -&gt; [0, 1, 0]</code></li>
+<li><code>&quot;tiger&quot; -&gt; [0, 0, 1]</code></li>
+</ul>
+</li>
+<li>
+<p>Trước đây, <code>one-hot encoding</code> thường dùng để biểu diễn <em>token/word</em> nhưng vector này rất <em>thưa (sparse)</em> &amp; <em>có chiều rất lớn</em>, vì vậy được thay thế bằng <code>embedding layer</code>.</p>
+</li>
+<li>
+<p>Ví dụ: <em>GPT-3 có vocab ~50k → mỗi token thành vector 50k chiều, trong đó 49,999 phần tử = 0</em>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Embedding layer</code> thực chất là <code>one-hot vector</code> x <code>weights matrix</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">W</mi></mrow><annotation encoding="application/x-tex">\mathbf{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em"></span><span class="mord mathbf" style="margin-right:0.01597em">W</span></span></span></span>).</p>
+</li>
+<li>
+<p>Từ code minh họa, có thể hình dung cách <code>embedding layer</code> hoạt động. Nếu <em>input <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">x</mi></mrow><annotation encoding="application/x-tex">\mathcal{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em"></span><span class="mord mathnormal">x</span></span></span></span></em> là <code>one-hot vector</code> (chỉ có một giá trị bằng 1), thì khi nhân với <code>weights matrix</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">W</mi></mrow><annotation encoding="application/x-tex">\mathbf{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em"></span><span class="mord mathbf" style="margin-right:0.01597em">W</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em"></span><span class="mrel">→</span></span></span></span> chính là chọn ra <code>1 hàng</code> của <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">W</mi></mrow><annotation encoding="application/x-tex">\mathbf{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em"></span><span class="mord mathbf" style="margin-right:0.01597em">W</span></span></span></span>.</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_11_embedding_W-aa49f70372a36945caa3e30299c24184.png" width="1513" height="796" class="img_ev3q"></p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="encoding-word-positions">Encoding Word Positions<a href="#encoding-word-positions" class="hash-link" aria-label="Direct link to Encoding Word Positions" title="Direct link to Encoding Word Positions">​</a></h2>
+<ul>
+<li>
+<p>Ở phần trước ta đã xử lý xong từ <code>token</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em"></span><span class="mrel">→</span></span></span></span> <code>token embedding</code>. Tuy nhiên, LLM có 1 hạn chế là cơ chế <code>self-attention</code> (sẽ được tìm hiểu ở các phần sau) <em>&quot;không có khái niệm về vị trí hay thứ tự của các token trong chuỗi&quot;</em>.</p>
+</li>
+<li>
+<p>Cách mà <code>embedding layer</code> hoạt động là <em>cùng 1 token ID luôn được ánh xạ thành cùng 1 vector, bất kể xuất hiện ở vị trí nào</em>. Điều này được minh họa như sau:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_12_embedding_position-32f757d8e8a29cb2370cfffd44646a9e.png" width="1191" height="824" class="img_ev3q"></p>
+</li>
+<li>
+<p>Về nguyên tắc, <code>embedding layer</code> hoạt động có <em>tính nhất quán</em> như vậy sẽ giúp mô hình học ổn định, tuy nhiên mô hình sẽ <em>không nhận biết được vị trí</em> (<code>Hôm nay trời đẹp</code> &amp; <code>Đẹp trời hôm nay</code> là 2 tập vector giống nhau).</p>
+</li>
+<li>
+<p>Bên cạnh đó, cơ chế <code>self-attention</code> của LLM cũng <em>không nhận biết được vị trí</em>, nên việc bổ sung <em>thông tin vị trí</em> trước khi bắt đầu training là cần thiết.</p>
+</li>
+<li>
+<p>Ở đây chúng ta sẽ sử dụng <code>absolute positional embeddings (embedding vị trí tuyệt đối)</code>, thể hiện qua ảnh sau:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_13_absolute_position-83f5768e5aef49f5ad8a428578c8f3c4.png" width="1479" height="538" class="img_ev3q"></p>
+</li>
+<li>
+<p>Các mô hình <code>GPT</code> của <code>OpenAI</code> sử dụng <code>absolute positional embeddings</code> được tối ưu trong quá trình <em>training</em>, thay vì được định nghĩa sẵn như <code>positional encodings</code> trong Transformer gốc.</p>
+<ul>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder accentunder="true"><mrow><mi>E</mi><mi>n</mi><mi>c</mi><mi>o</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow><mo stretchy="true">‾</mo></munder></mrow><annotation encoding="application/x-tex">\underline{Encoding} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0889em;vertical-align:-0.3944em"></span><span class="mord underline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em"><span style="top:-2.6456em"><span class="pstrut" style="height:3em"></span><span class="underline-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em">E</span><span class="mord mathnormal">n</span><span class="mord mathnormal">co</span><span class="mord mathnormal">d</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.03588em">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3944em"><span></span></span></span></span></span></span></span></span>: chuyển đổi từ dữ liệu <em>dạng này sang dạng khác</em>. Thường là quy tắc hoặc công thức toán học <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em"></span><span class="mrel">→</span></span></span></span> cứng, cố định.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder accentunder="true"><mrow><mi>E</mi><mi>m</mi><mi>b</mi><mi>e</mi><mi>d</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>g</mi></mrow><mo stretchy="true">‾</mo></munder></mrow><annotation encoding="application/x-tex">\underline{Embedding}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0889em;vertical-align:-0.3944em"></span><span class="mord underline"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em"><span style="top:-2.6456em"><span class="pstrut" style="height:3em"></span><span class="underline-line" style="border-bottom-width:0.04em"></span></span><span style="top:-3em"><span class="pstrut" style="height:3em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em">E</span><span class="mord mathnormal">mb</span><span class="mord mathnormal">e</span><span class="mord mathnormal">dd</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.03588em">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3944em"><span></span></span></span></span></span></span></span></span>: <em>continuous vector representation</em> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em"></span><span class="mrel">→</span></span></span></span> có thể tinh chỉnh tham số qua training.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Code minh họa xem ở <code>5. Positional_embedding.ipynb</code></p>
+</li>
+<li>
+<p>Tổng kết lại phần này có các bước như sau:</p>
+<p><img decoding="async" loading="lazy" alt="alt" src="/tyan-blog/assets/images/tokenizing_14_summary-ac93acfd14d1c980bf02fc9915d35e22.png" width="1293" height="1470" class="img_ev3q"></p>
+<ul>
+<li><em>Text → Token → Token ID → Token Embedding → add Positional Embedding → Input Embedding → LLM layers</em></li>
+</ul>
+</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/tyanfarm/tyan-blog/tree/main/docs/build-llm-from-scratch/data-preparation-and-sampling.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/tyan-blog/docs/build-llm-from-scratch/state-of-building-LLMs"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">1. State of building LLMs</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/tyan-blog/docs/intro"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Tutorial Intro</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#word-embeddings" class="table-of-contents__link toc-highlight">Word Embeddings</a></li><li><a href="#tokenizing-text" class="table-of-contents__link toc-highlight">Tokenizing text</a></li><li><a href="#converting-tokens-into-token-ids" class="table-of-contents__link toc-highlight">Converting tokens into token IDs</a></li><li><a href="#adding-special-context-tokens" class="table-of-contents__link toc-highlight">Adding special context tokens</a></li><li><a href="#byte-pair-encoding" class="table-of-contents__link toc-highlight">Byte Pair Encoding</a></li><li><a href="#data-sampling-with-a-sliding-window" class="table-of-contents__link toc-highlight">Data sampling with a sliding window</a></li><li><a href="#creating-token-embeddings" class="table-of-contents__link toc-highlight">Creating Token Embeddings</a><ul><li><a href="#embedding-layer-và-matrix-multiplication-nhân-ma-trận" class="table-of-contents__link toc-highlight">Embedding Layer và Matrix Multiplication (Nhân ma trận)</a></li></ul></li><li><a href="#encoding-word-positions" class="table-of-contents__link toc-highlight">Encoding Word Positions</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/tyan-blog/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/tyanfarm" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2025 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
