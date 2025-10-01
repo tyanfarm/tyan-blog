@@ -95,8 +95,8 @@ const config: Config = {
           position: 'left'
         },
         {
-          to: '/docs/category/gpfedrec/',
-          label: 'GPFedRec',
+          to: '/docs/category/build-llm-from-scratch/',
+          label: 'LLM',
           position: 'left'
         },
       ],
