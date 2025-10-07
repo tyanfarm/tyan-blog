@@ -79,7 +79,7 @@ title: 2. Data Preparation and Sampling
 
     ![alt](./imgs/tokenizing_03.png)
 
-- Phần code minh họa sẽ được trình bày trong `Tokenizing.ipynb`
+- Phần code minh họa sẽ được trình bày trong [`1. Tokenizing.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/1.%20Tokenizing.ipynb)
 
 - Có một vấn đề là với những từ mà *vocabulary* chưa có, `tokenizer` sẽ không ánh xạ sang *token IDs* được. Điều này cho thấy cần phải chuẩn bị 1 tập training lớn và đa dạng hơn để mở rộng cho *vocabulary*.
 
@@ -94,7 +94,7 @@ title: 2. Data Preparation and Sampling
 
 - Ví dụ, khi huấn luyện các LLM kiểu GPT trên nhiều tài liệu hoặc sách độc lập, việc chèn một token trước mỗi tài liệu hoặc cuốn sách tiếp nối sau một nguồn văn bản trước đó là điều thường gặp để giúp LLM hiểu rằng mặc dù các văn bản này được nối lại để training, nhưng chúng không liên quan đến nhau.
 
-- Code triển khai xem thêm tại `Tokenizing.ipynb`
+- Code triển khai xem thêm tại [`1. Tokenizing.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/1.%20Tokenizing.ipynb)
 
 - Tùy thuộc vào từng mô hình LLM, một số nhà nghiên cứu còn xem xét thêm các token đặc biệt như:
     + `[BOS] (beginning of sequence)`: đánh dấu sự bắt đầu của 1 văn bản.
@@ -129,7 +129,7 @@ title: 2. Data Preparation and Sampling
 
     ![alt](./imgs/tokenizing_09_sliding_window.png)
 
-- Code triển khai có thể xem qua `3. Data_sampling.ipynb`
+- Code triển khai có thể xem qua [`3. Data_sampling.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/3.%20Data_sampling.ipynb)
 
 ## Creating Token Embeddings
 ![alt](./imgs/tokenizing_10_embedding.png)
@@ -138,7 +138,7 @@ title: 2. Data Preparation and Sampling
 
 - Một `biểu diễn vector liên tục (continuous vector representation)`, hay còn gọi là `embedding`, được huấn luyện bởi thuật toán `lan truyền ngược (backpropagation)` (Có thể đọc thêm tại *Appendix A.4, Automatic differentiation made easy*)
 
-- Phần code minh họa xem thêm tại `Token_embedding.ipynb`
+- Phần code minh họa xem thêm tại [`4. Token_embedding.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/4.%20Token_embedding.ipynb)
 
 ### Embedding Layer và Matrix Multiplication (Nhân ma trận)
 - Trước tiên ta cùng ôn lại một chút về khái niệm `one-hot encoding`. Kĩ thuật này sẽ chuyển đổi *categorical data* thành vector nhị phân: 
@@ -178,7 +178,7 @@ title: 2. Data Preparation and Sampling
 
     + $\underline{Embedding}$: *continuous vector representation* $\rightarrow$ có thể tinh chỉnh tham số qua training.
 
-- Code minh họa xem ở `5. Positional_embedding.ipynb`
+- Code minh họa xem ở [`5. Positional_embedding.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/5.%20Positional_embedding.ipynb)
 
 - Tổng kết lại phần này có các bước như sau:
     
