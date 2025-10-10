@@ -15,7 +15,7 @@ title: 3. Coding Attention Mechanisms (Part 02)
 
         + Khi biểu diễn “mat”, mô hình có thể nhìn cả “on” và “the” để rõ nghĩa.
 
-## Cơ chế self-attention đơn giản không có weights
+## 3.3. Cơ chế self-attention đơn giản không có weights
 ![alt](./imgs/attention_04_self.png)
 
 - Chuỗi đầu vào $x$:

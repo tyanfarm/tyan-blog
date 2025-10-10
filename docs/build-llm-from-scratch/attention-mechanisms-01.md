@@ -13,7 +13,7 @@ title: 3. Coding Attention Mechanisms (Part 01)
 
     + Cuối cùng, *multi-head attention* tổ chức attention mechanisms thành nhiều "head" song song, nắm bắt nhiều đặc trưng của input data.
 
-## Khó khăn trong việc mô hình hóa chuỗi dài
+## 3.1. Khó khăn trong việc mô hình hóa chuỗi dài
 - Trước khi đi vào cơ chế `self-attention`, vốn là *core* của LLM, hãy xem vấn đề của các kiến trúc *không có attention* xuất hiện trước LLM là gì.
 
     ![alt](./imgs/attention_02_translate.png)
@@ -49,7 +49,7 @@ title: 3. Coding Attention Mechanisms (Part 01)
 - Vấn đề của `encoder-decoder RNN` là trong lúc `decoding`, RNN không thể truy cập vào các hidden state phía trước mà chỉ dựa được vào `final hidden state` (có thể thấy rõ từ công thức). Do đó, toàn bộ input data chỉ được nén vào 1 vector duy nhất. Điều này
 dễ làm `mất mát thông tin`, đặc biệt với câu dài, có phức tạp quan hệ xa.
 
-## Nắm bắt các quan hệ phụ thuộc với cơ chế attention
+## 3.2. Nắm bắt các quan hệ phụ thuộc với cơ chế attention
 - Sau 3 năm, `Transformer` gốc ra đời với cơ chế `self-attention` lấy cảm hứng từ  với cơ chế attention
 - `RNN` có nhược điểm là *buộc phải ghi nhớ toàn bộ câu đã mã hóa chỉ trong 1 hidden state duy nhất*.
 
