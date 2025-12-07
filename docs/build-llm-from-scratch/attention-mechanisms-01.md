@@ -18,7 +18,7 @@ title: 3. Coding Attention Mechanisms (Part 01)
 
     ![alt](./imgs/attention_02_translate.png)
 
-- Giả sử chúng ta muốn phát triển một `mô hình dịch ngôn ngữ`. Như hình trên, ta không thể chỉ đơn giản *dịch* từng từ một từ German qua English do khác biệt về `cấu trúc ngữ pháp`.
+- Giả sử chúng ta muốn phát triển một `mô hình dịch ngôn ngữ`. Ý tưởng ban đầu sẽ là dịch từng từ một, nhưng như hình trên, ta không thể chỉ đơn giản *dịch* từng từ một từ German qua English do khác biệt về `cấu trúc ngữ pháp`.
 
 - Để giải quyết vấn đề này, người ta thường sử dụng một `mạng neural` với *2 module con* `Encoder và Decoder`. Nhiệm vụ của Encoder là *đọc và xử lý toàn bộ văn bản*, sau đó Decoder sẽ *sinh ra văn bản dịch*.
 
