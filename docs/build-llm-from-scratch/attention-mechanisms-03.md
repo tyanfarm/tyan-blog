@@ -35,11 +35,11 @@ title: 3. Coding Attention Mechanisms (Part 03)
 - ![alt](./imgs/attention_10_scores_qk.png)
     + Vì đang tính `context vector` cho `token 2` nên `attention scores` được tính bằng $q^{(2)}$ với các $k^{(i)}$.    
 
-- `attention scores` $\omega$ được tính bằng `dot product` tương tự cơ chế `self-attention đơn giản` ở phần trước. Điểm khác là ở đây được tính giữa vector `query` và vector `key`, với `query` là vector biểu diễn `token` đang xét và `key` là các vector biểu diễn các `token` sẽ được "so sánh" với _query_.
+- `attention scores` $\omega$ được tính bằng [`dot product`](./bonus-section/vector-matrix-products.md) tương tự cơ chế `self-attention đơn giản` ở phần trước. Điểm khác là ở đây được tính giữa vector `query` và vector `key`, với `query` là vector biểu diễn `token` đang xét và `key` là các vector biểu diễn các `token` sẽ được "so sánh" với _query_.
 
 - ![alt](./imgs/attention_11_weights.png)
 
-- Ta sẽ tiến hành tính toán `attention weights` bằng cách điều chỉnh `attention scores` với hàm `softmax` đã thực nghiệm ở phần trước.
+- Ta sẽ tiến hành tính toán `attention weights` bằng cách điều chỉnh `attention scores` với hàm `softmax` đã thực nghiệm ở phần trước. 
 
 - Điểm khác so với phần trước là ta sẽ chuẩn hóa `attention scores` bằng cách `chia cho căn bậc hai của embedding dimension` của `keys`: 
     $$ \alpha_{2i} = \frac{\omega_{2i}}{\sqrt{d_k}} $$
@@ -79,11 +79,11 @@ title: 3. Coding Attention Mechanisms (Part 03)
 
     + Nhân `attention weights` với các vector $V$ tương ứng để ra được các `context vector` $Z$.
 
-- Ta có thể cải thiện version `SelfAttention_v1` bằng cách sử dụng các tầng `nn.Linear` của Pytorch. Các tầng này sử dụng _phép nhân ma trận_ tương đương $XW$ với việc tắt `bias`.
-
-- Ngoài ra, `nn.Linear` có cơ chế tự khởi tạo trọng số được tối ưu sẵn, thay vì dùng `torch.rand()`.
-
-- Triển khai version `SelfAttention_v2` tại [`8. Self-attention-class.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/8.%20Self-attention-class.ipynb).
+- Ta có thể cải thiện version `SelfAttention_v1` bằng cách sử dụng các tầng `nn.Linear` của Pytorch. Bản chất của lớp __Linear__ này là thực hiện phép tính $y = xW + b$.
+Nếu ta tắt bias (tức là $b=0$), thì nó chính xác là $y = xW$.
 
 - `nn.Linear` khởi tạo _weights_ tiên tiến hơn (ví dụ _Xavier initialization_ hoặc _Kaiming initialization_), giúp mô hình học ổn định và tránh gradient quá lớn/nhỏ.
 
+- Ngoài ra, `nn.Linear` có cơ chế tự khởi tạo trọng số $W$ được tối ưu sẵn, thay vì dùng `torch.rand()`.
+
+- Triển khai version `SelfAttention_v2` tại [`8. Self-attention-class.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/8.%20Self-attention-class.ipynb).

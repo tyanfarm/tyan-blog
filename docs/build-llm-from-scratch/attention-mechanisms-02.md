@@ -60,7 +60,7 @@ title: 3. Coding Attention Mechanisms (Part 02)
 
 ![alt](./imgs/attention_06_scores.png)
 
-- Danh sách `attention weights` được tính bằng cách truyền `attention scores` qua hàm `softmax` để chuyển về _phân phối xác suất_.
+- Danh sách `attention weights` được tính bằng cách truyền `attention scores` qua hàm [`softmax`](./bonus-section/softmax.md) để chuyển về _phân phối xác suất_.
 
 - Code minh họa xem tại [`6. Self-attention_without_weights.ipynb`](https://github.com/tyanfarm/build-LLM-from-scratch-notebook/blob/main/6.%20Self-attention_without_weights.ipynb).
 
