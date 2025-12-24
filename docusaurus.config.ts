@@ -99,6 +99,11 @@ const config: Config = {
           label: 'LLM',
           position: 'left'
         },
+        // {
+        //   to: '/docs/category/machine-learning/',
+        //   label: 'ML',
+        //   position: 'left'
+        // },
       ],
     },
     footer: {
