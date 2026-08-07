@@ -1,30 +1,65 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global theme overrides for the Spiderum-style redesign.
+ * Infima variables control color site-wide; typography rules apply to
+ * body text.
  */
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #4ecdc4;
-  --ifm-color-primary-dark: #35c4ba;
-  --ifm-color-primary-darker: #2ebeb4;
-  --ifm-color-primary-darkest: #26a199;
-  --ifm-color-primary-light: #67d6ce;
-  --ifm-color-primary-lighter: #74dad3;
-  --ifm-color-primary-lightest: #95e3dd;
-  --ifm-code-font-size: 95%;
+  --ifm-color-primary: #f2542d;
+  --ifm-color-primary-dark: #da431d;
+  --ifm-color-primary-darker: #ce3f1b;
+  --ifm-color-primary-darkest: #a93417;
+  --ifm-color-primary-light: #f46b47;
+  --ifm-color-primary-lighter: #f57855;
+  --ifm-color-primary-lightest: #f89a7e;
+
+  --ifm-background-color: #ffffff;
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-font-color-base: #1a1a1a;
+  --ifm-color-emphasis-600: #6b6b6b;
+  --ifm-toc-border-color: #ececec;
+  --ifm-hr-border-color: #ececec;
+  --ifm-navbar-shadow: none;
+
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --ifm-font-size-base: 17px;
+  --ifm-line-height-base: 1.7;
+  --ifm-code-font-size: 90%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #5fd4cc;
-  --ifm-color-primary-dark: #46cfc6;
-  --ifm-color-primary-darker: #39cbc2;
-  --ifm-color-primary-darkest: #2db3ab;
-  --ifm-color-primary-light: #78d9d2;
-  --ifm-color-primary-lighter: #85ddd6;
-  --ifm-color-primary-lightest: #a6e5df;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #ff7a52;
+  --ifm-color-primary-dark: #ff5f2e;
+  --ifm-color-primary-darker: #ff521c;
+  --ifm-color-primary-darkest: #e63c04;
+  --ifm-color-primary-light: #ff9576;
+  --ifm-color-primary-lighter: #ffa389;
+  --ifm-color-primary-lightest: #ffc4b3;
+
+  --ifm-background-color: #181818;
+  --ifm-navbar-background-color: #181818;
+  --ifm-font-color-base: #e8e8e8;
+  --ifm-color-emphasis-600: #9a9a9a;
+  --ifm-toc-border-color: #2e2e2e;
+  --ifm-hr-border-color: #2e2e2e;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+}
+
+.navbar {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  box-shadow: none;
+}
+
+.footer {
+  --ifm-footer-background-color: var(--ifm-background-color);
+  --ifm-footer-color: var(--ifm-color-emphasis-600);
+  --ifm-footer-link-color: var(--ifm-color-emphasis-600);
+  border-top: 1px solid var(--ifm-toc-border-color);
+  padding: 1.5rem 0;
+}
+
+.footer__copyright {
+  font-size: 0.875rem;
 }
