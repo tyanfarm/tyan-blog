@@ -1,0 +1,54 @@
+.feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  padding: 1.75rem 0;
+}
+
+.card:first-child {
+  padding-top: 0;
+}
+
+.cardLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  text-decoration: none;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.dot {
+  margin: 0 0.4rem;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--ifm-font-color-base);
+}
+
+.cardLink:hover .title {
+  color: var(--ifm-color-primary);
+}
+
+.excerpt {
+  margin: 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
