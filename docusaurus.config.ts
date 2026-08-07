@@ -8,7 +8,7 @@ import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
   title: 'Tyan Blog',
-  tagline: 'Welcome to Tyan Blog',
+  tagline: 'Notes on LLMs, interviews, and everything in between',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -84,10 +84,6 @@ const config: Config = {
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
       title: 'Tyan Blog',
-      logo: {
-        alt: 'Tyan Blog Logo',
-        src: 'img/logo.svg',
-      },
       items: [
         {
           to: '/docs/category/interviews/',
@@ -107,18 +103,10 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/tyanfarm',
-            },
-          ],
-        },
-      ],
+      style: 'light',
+      links: [],
+      copyright:
+        'Copyright © 2026 Tyan · <a href="https://github.com/tyanfarm" target="_blank" rel="noreferrer">GitHub</a>',
     },
     prism: {
       theme: prismThemes.github,
