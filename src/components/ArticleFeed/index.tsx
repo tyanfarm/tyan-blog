@@ -4,6 +4,30 @@ import type {Post} from '@site/src/data/posts';
 
 import styles from './styles.module.css';
 
+interface CategoryGroup {
+  category: string;
+  posts: Post[];
+}
+
+function groupByCategory(posts: Post[]): CategoryGroup[] {
+  const byCategory = new Map<string, Post[]>();
+  for (const post of posts) {
+    const list = byCategory.get(post.category) ?? [];
+    list.push(post);
+    byCategory.set(post.category, list);
+  }
+
+  const groups: CategoryGroup[] = [...byCategory.entries()].map(([category, categoryPosts]) => ({
+    category,
+    posts: [...categoryPosts].sort((a, b) => (a.date < b.date ? 1 : -1)),
+  }));
+
+  // Category with the most recently published post leads.
+  groups.sort((a, b) => (a.posts[0].date < b.posts[0].date ? 1 : -1));
+
+  return groups;
+}
+
 function formatDate(date: string): string {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -13,23 +37,28 @@ function formatDate(date: string): string {
 }
 
 export default function ArticleFeed({posts}: {posts: Post[]}): ReactNode {
-  const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const groups = groupByCategory(posts);
 
   return (
-    <ul className={styles.feed}>
-      {sorted.map((post) => (
-        <li key={post.href} className={styles.card}>
-          <Link to={post.href} className={styles.cardLink}>
-            <div className={styles.meta}>
-              <span className={styles.category}>{post.category}</span>
-              <span className={styles.dot}>·</span>
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-            </div>
-            <h2 className={styles.title}>{post.title}</h2>
-            <p className={styles.excerpt}>{post.excerpt}</p>
-          </Link>
-        </li>
+    <div className={styles.feed}>
+      {groups.map((group) => (
+        <section key={group.category} className={styles.group}>
+          <h2 className={styles.groupTitle}>{group.category}</h2>
+          <ul className={styles.list}>
+            {group.posts.map((post) => (
+              <li key={post.href} className={styles.card}>
+                <Link to={post.href} className={styles.cardLink}>
+                  <h3 className={styles.title}>{post.title}</h3>
+                  <p className={styles.excerpt}>{post.excerpt}</p>
+                  <time className={styles.date} dateTime={post.date}>
+                    {formatDate(post.date)}
+                  </time>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
-    </ul>
+    </div>
   );
 }
