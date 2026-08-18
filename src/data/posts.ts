@@ -8,11 +8,19 @@ export interface Post {
 
 export const posts: Post[] = [
   {
+    title: '5. Pretraining on Unlabeled Data (Part 02)',
+    excerpt:
+      'Vòng lặp huấn luyện LLM, temperature scaling, và các chiến lược decoding: top-k, top-p sampling.',
+    category: 'LLM',
+    href: '/docs/build-llm-from-scratch/pretrain-unlabeled-data-02',
+    date: '2026-08-18',
+  },
+  {
     title: '5. Pretraining on Unlabeled Data (Part 01)',
     excerpt:
       'Quy trình pretraining LLM trên dữ liệu chưa gán nhãn, từ tính loss đến vòng lặp huấn luyện.',
     category: 'LLM',
-    href: '/docs/build-llm-from-scratch/pretrain-unlabeled-data',
+    href: '/docs/build-llm-from-scratch/pretrain-unlabeled-data-01',
     date: '2026-05-31',
   },
   {
