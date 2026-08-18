@@ -68,3 +68,39 @@
   font-size: 0.8rem;
   color: var(--ifm-color-emphasis-600);
 }
+
+.moreWrap {
+  position: relative;
+}
+
+.peek {
+  position: relative;
+  max-height: 8rem;
+  overflow: hidden;
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.peekFade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--ifm-background-color) 85%);
+}
+
+.toggleButton {
+  display: block;
+  margin: 1.25rem auto 0;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 999px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggleButton:hover {
+  border-color: var(--ifm-color-primary);
+}
